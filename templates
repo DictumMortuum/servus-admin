@@ -1,0 +1,108 @@
+Paladins
+
+{
+  "red": 3,
+  "black": 9,
+  "blue": 11,
+  "commission": 9,
+  "fortify": 3,
+  "garrison": 0,
+  "absolve": 6,
+  "attack": 0,
+  "convert": 0,
+  "order": 8,
+  "develop": 6,
+  "debt": 2,
+  "coin": 0
+}
+
+Wingspan
+
+{
+  "birds": 37,
+  "bonus": 6,
+  "endofround": 16,
+  "eggs": 9,
+  "food": 11,
+  "tucked": 15
+}
+
+Waterdeep
+
+{
+  "quests": 53,
+  "diamonds": 5,
+  "cubes": 8,
+  "money": 4,
+  "character": 8
+}
+
+Magnificent
+
+{
+  "player": 1,
+  "score": 99
+}
+
+Azul
+
+{
+  "score": 108,
+  "colors": 1,
+  "rows": 1,
+  "columns": 0
+}
+
+Patchwork
+
+{
+  "buttons": 33,
+  "7x7": true,
+  "empty": 22
+}
+
+Ticket to ride
+
+{"score": 68, "longest": false}
+
+Architects of the west kingdom
+
+{
+  "buildings": 15,
+  "cathedral": 20,
+  "virtue": 7,
+  "debt": 0,
+  "gold-marble": 2,
+  "money": 0,
+  "prison": 0
+}
+
+Lost ruins of arnak
+
+{
+  "research": 29,
+  "tiles": 4,
+  "idols": 12,
+  "guardian": 20,
+  "cards": 6,
+  "fear": -1
+}
+
+Concordia venus
+
+{
+  "vesta": 8,
+  "jupiter": 50,
+  "saturnus": 27,
+  "venus": 20,
+  "mercurius": 30,
+  "mars": 56,
+  "minerva": 15
+}
+
+Root
+
+{
+  "faction":"marquise de cat",
+  "place":1
+}
