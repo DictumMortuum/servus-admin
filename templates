@@ -19,11 +19,11 @@ Paladins
 Wingspan
 
 {
-  "birds": 37,
-  "bonus": 6,
+  "birds": 52,
+  "bonus": 13,
   "endofround": 16,
-  "eggs": 9,
-  "food": 11,
+  "eggs": 13,
+  "food": 0,
   "tucked": 15
 }
 

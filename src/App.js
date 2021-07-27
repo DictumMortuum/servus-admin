@@ -11,8 +11,10 @@ import { PlayList, PlayCreate } from './components/Play';
 import { StatsList, StatsCreate } from './components/Stats';
 import { atlasReducer } from './components/reducers';
 
-// const dataProvider = simpleRestProvider('http://localhost:1234/rest/v1');
-const dataProvider = simpleRestProvider('https://servus.dictummortuum.com/rest/v1');
+export const endpoint = "https://servus.dictummortuum.com"
+
+const dataProvider = simpleRestProvider(endpoint + '/rest/v1');
+// const dataProvider = simpleRestProvider('https://servus.dictummortuum.com/rest/v1');
 
 const App = () => (
   <Admin customReducers={{ atlasReducer }} dataProvider={dataProvider}>
