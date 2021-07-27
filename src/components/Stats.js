@@ -56,7 +56,7 @@ const exporter = async () => {
   let players = await getPlayers()
   let games = await getBoardgames()
   let scores = await getScores()
-  let retval = JSON.stringify(scores.response.map(parseScore(games)(players)))
+  let retval = JSON.stringify(scores.response.map(parseScore(games)(players)), null, 2)
   const fileName = "file";
   const blob = new Blob([retval],{type:'application/json'});
   const href = await URL.createObjectURL(blob);
