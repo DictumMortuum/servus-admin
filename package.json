@@ -17,6 +17,7 @@
     "react-admin": "^3.10.3",
     "react-admin-date-inputs": "^1.1.4",
     "react-admin-date-inputs2": "^1.1.9",
+    "react-admin-json-view": "^1.2.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.1",
     "web-vitals": "^0.2.4"

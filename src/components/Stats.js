@@ -6,7 +6,6 @@ import {
   DateField,
   Datagrid,
   ReferenceFieldController,
-  FunctionField,
   ReferenceInput,
   SimpleForm,
   Create,
@@ -14,6 +13,7 @@ import {
   SelectInput,
 } from 'react-admin';
 import { endpoint } from '../App';
+import { JsonField } from "react-admin-json-view";
 
 async function getPlayers() {
   const rs = await fetch(endpoint + "/rest/v1/player")
@@ -85,7 +85,16 @@ export const StatsList = props => (
       <ReferenceField source="player_id" reference="player">
         <TextField source="name" />
       </ReferenceField>
-      <FunctionField label="Data" render={record => (<p>{JSON.stringify(record.data)}</p>)} />
+      {/* <FunctionField label="Data" render={record => (<p>{JSON.stringify(record.data)}</p>)} /> */}
+      <JsonField
+        source="data"
+        reactJsonOptions={{
+          name: null,
+          collapsed: false,
+          enableClipboard: false,
+          displayDataTypes: false,
+        }}
+      />
     </Datagrid>
   </List>
 );
