@@ -19,7 +19,6 @@ import {
 import { endpoint } from '../App';
 import { JsonField } from "react-admin-json-view";
 import { useFormState } from 'react-final-form';
-import { CodeBlock, github } from "react-code-blocks";
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -176,16 +175,7 @@ const OutputField = props => {
   const classes = useStyles();
   const { values } = useFormState();
   const { data: _, play_id, player_id, ...rest } = values
-
-  return <div className={classes.codeblock}>
-    <CodeBlock
-      text={JSON.stringify(rest)}
-      language="javascript"
-      showLineNumbers={false}
-      theme={github}
-    />
-  </div>
-
+  return <div className={classes.codeblock}>{JSON.stringify(rest)}</div>
 }
 
 const JsonInput = props => {
