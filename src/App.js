@@ -12,12 +12,25 @@ import { StatsList, StatsCreate } from './components/Stats';
 import { atlasReducer } from './components/reducers';
 
 export const endpoint = "https://servus.dictummortuum.com"
-
+// export const endpoint = "http://localhost:1234"
 const dataProvider = simpleRestProvider(endpoint + '/rest/v1');
-// const dataProvider = simpleRestProvider('https://servus.dictummortuum.com/rest/v1');
+
+const cacheDataProviderProxy = (dataProvider, duration =  5 * 60 * 1000) => new Proxy(dataProvider, {
+  get: (target, name) => (resource, params) => {
+    if (name === 'getOne') {
+      return dataProvider[name](resource, params).then(response => {
+        const validUntil = new Date();
+        validUntil.setTime(validUntil.getTime() + duration);
+        response.validUntil = validUntil;
+        return response;
+      });
+    }
+    return dataProvider[name](resource, params);
+  },
+});
 
 const App = () => (
-  <Admin customReducers={{ atlasReducer }} dataProvider={dataProvider}>
+  <Admin customReducers={{ atlasReducer }} dataProvider={cacheDataProviderProxy(dataProvider)}>
     <Resource name="scrape" list={ScrapedDataList} show={ScrapedDataShow} />
     <Resource name="store" list={StoreList} />
     <Resource name="boardgame" list={BoardgameList} show={BoardgameShow} create={BoardgameCreate} />
