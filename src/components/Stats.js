@@ -222,10 +222,19 @@ const BoardgameInput = ({ className, boardgame_id }) => {
       return <WingspanInput {...props} />
     case 256916:
       return <ConcordiaInput {...props} />
+    case 253499:
+      return <WarOfWhispersInput {...props} />
     default:
       return <NumberInput source="score" {...props} />
   }
 }
+
+const WarOfWhispersInput = props => (
+  <div {...props} >
+    <NumberInput source="score" {...props} />
+    <NumberInput source="swaps" {...props} />
+  </div>
+)
 
 const SevenWondersDuelInput = props => (
   <div {...props} >
