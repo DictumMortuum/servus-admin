@@ -13,7 +13,7 @@ import {
 } from 'react-admin';
 
 export const PlayList = props => (
-  <List {...props}>
+  <List {...props} perPage={25} sort={{ field: 'date', order: 'DESC' }}>
     <Datagrid rowClick="edit">
       <TextField source="id" />
       <ReferenceField source="boardgame_id" reference="boardgame">

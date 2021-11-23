@@ -82,7 +82,7 @@ const exporter = async () => {
 }
 
 export const StatsList = props => (
-  <List {...props} exporter={exporter} perPage={25}>
+  <List {...props} exporter={exporter} perPage={25} sort={{ field: 'id', order: 'DESC' }}>
     <Datagrid rowClick="edit">
       <TextField source="id" />
       <ReferenceField source="play_id" reference="play">

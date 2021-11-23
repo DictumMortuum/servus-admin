@@ -9,7 +9,7 @@ import {
 } from 'react-admin';
 
 export const PlayerList = props => (
-  <List {...props}>
+  <List {...props} perPage={25}>
       <Datagrid rowClick="edit">
           <TextField source="id" />
           <TextField source="name" />
