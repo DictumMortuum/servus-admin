@@ -154,21 +154,23 @@ const dateFormatter = v => {
 };
 
 const SelectText = props => {
-  const { loaded, error, data } = useQueryWithStore({
-    type: 'getOne',
-    resource: 'boardgame',
-    payload: { id: props.boardgame_id }
-  })
+  // const { loaded, error, data } = useQueryWithStore({
+  //   type: 'getOne',
+  //   resource: 'boardgame',
+  //   payload: { id: props.boardgame_id }
+  // })
 
-  if (!loaded) {
-    return <span>loading {props.boardgame_id}...</span>
-  }
+  // console.log(props)
 
-  if (error) {
-    return <span>failed to load {props.boardgame_id}...</span>
-  }
+  // if (!loaded) {
+  //   return <span>loading {props.boardgame_id}...</span>
+  // }
 
-  return <span>{dateFormatter(new Date(props.date)) + " - " + data.name}</span>
+  // if (error) {
+  //   return <span>failed to load {props.boardgame_id}...</span>
+  // }
+
+  return <span>{dateFormatter(new Date(props.date)) + " - " + props.boardgame}</span>
 }
 
 const OutputField = props => {
@@ -347,6 +349,7 @@ const ArchitectsInput = props => (
     <NumberInput source="money" {...props} />
     <NumberInput source="prison" {...props} />
     <NumberInput source="virtue" {...props} />
+    <NumberInput source="bottom" label="End of game bottom" {...props} />
   </div>
 )
 
