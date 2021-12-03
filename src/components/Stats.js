@@ -160,8 +160,6 @@ const SelectText = props => {
   //   payload: { id: props.boardgame_id }
   // })
 
-  // console.log(props)
-
   // if (!loaded) {
   //   return <span>loading {props.boardgame_id}...</span>
   // }
@@ -226,10 +224,32 @@ const BoardgameInput = ({ className, boardgame_id }) => {
       return <ConcordiaInput {...props} />
     case 253499:
       return <WarOfWhispersInput {...props} />
+    case 163412:
+      return <PatchworkInput {...props} />
+    case 110327:
+      return <WaterdeepInput {...props} />
     default:
       return <NumberInput source="score" {...props} />
   }
 }
+
+const WaterdeepInput = props => (
+  <div {...props} >
+    <NumberInput source="quests" {...props} />
+    <NumberInput source="diamonds" {...props} />
+    <NumberInput source="cubes" {...props} />
+    <NumberInput source="money" {...props} />
+    <NumberInput source="character" {...props} />
+  </div>
+)
+
+const PatchworkInput = props => (
+  <div {...props} >
+    <BooleanInput source="7x7" {...props} />
+    <NumberInput source="buttons" {...props} />
+    <NumberInput source="empty" label="Empty Spaces" {...props} />
+  </div>
+)
 
 const WarOfWhispersInput = props => (
   <div {...props} >
