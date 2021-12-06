@@ -228,6 +228,8 @@ const BoardgameInput = ({ className, boardgame_id }) => {
       return <PatchworkInput {...props} />
     case 110327:
       return <WaterdeepInput {...props} />
+    case 170042:
+      return <RaidersInput {...props} />
     default:
       return <NumberInput source="score" {...props} />
   }
@@ -395,5 +397,15 @@ const ConcordiaInput = props => (
     <NumberInput source="saturnus" {...props} />
     <NumberInput source="venus" {...props} />
     <NumberInput source="vesta" {...props} />
+  </div>
+)
+
+const RaidersInput = props => (
+  <div {...props}>
+    <NumberInput source="armor" {...props} />
+    <NumberInput source="loot" {...props} />
+    <NumberInput source="points" {...props} />
+    <NumberInput source="valkyrie" {...props} />
+    <NumberInput source="cards" {...props} />
   </div>
 )
