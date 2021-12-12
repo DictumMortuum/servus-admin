@@ -198,8 +198,12 @@ const JsonInput = props => {
   return <BoardgameInput className={className} {...data} />
 };
 
-const BoardgameInput = ({ className, boardgame_id }) => {
-  const props = { className };
+const BoardgameInput = ({ className, boardgame_data, boardgame_id }) => {
+  const props = { className, boardgame_data };
+
+  if (boardgame_data.hasOwnProperty("columns")) {
+    return <DatabaseInput {...props} />
+  }
 
   switch (boardgame_id) {
     case 266810:
@@ -226,8 +230,6 @@ const BoardgameInput = ({ className, boardgame_id }) => {
       return <WarOfWhispersInput {...props} />
     case 163412:
       return <PatchworkInput {...props} />
-    case 110327:
-      return <WaterdeepInput {...props} />
     case 170042:
       return <RaidersInput {...props} />
     default:
@@ -235,13 +237,17 @@ const BoardgameInput = ({ className, boardgame_id }) => {
   }
 }
 
-const WaterdeepInput = props => (
-  <div {...props} >
-    <NumberInput source="quests" {...props} />
-    <NumberInput source="diamonds" {...props} />
-    <NumberInput source="cubes" {...props} />
-    <NumberInput source="money" {...props} />
-    <NumberInput source="character" {...props} />
+const DatabaseInput = props => (
+  <div {...props}>
+    {Object.keys(props.boardgame_data["columns"]).map(key => {
+      let type = props.boardgame_data["columns"][key]
+      switch (type) {
+        case "int":
+          return <NumberInput key={key} source={key} {...props} />
+        default:
+          return <span>not supported</span>
+      }
+    })}
   </div>
 )
 

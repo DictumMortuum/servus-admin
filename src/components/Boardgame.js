@@ -11,12 +11,14 @@ import {
   NumberInput,
   TextInput,
 } from 'react-admin';
+import { JsonField } from "react-admin-json-view";
 
 export const BoardgameShow = (props) => (
   <Show {...props}>
     <SimpleShowLayout>
       <TextField source="id" />
       <TextField source="name" />
+      <JsonField source="data" />
     </SimpleShowLayout>
   </Show>
 );
@@ -26,6 +28,7 @@ export const BoardgameList = props => (
     <Datagrid rowClick="edit">
       <TextField source="id" />
       <TextField source="name" />
+      <JsonField source="data" reactJsonOptions={{collapsed: true}} />
       <ShowButton label="Show" />
     </Datagrid>
   </List>
