@@ -15,7 +15,7 @@ export const endpoint = "https://servus.dictummortuum.com"
 // export const endpoint = "http://localhost:1234"
 const dataProvider = simpleRestProvider(endpoint + '/rest/v1');
 
-const cacheDataProviderProxy = (dataProvider, duration =  5 * 60 * 1000) => new Proxy(dataProvider, {
+const cacheDataProviderProxy = (dataProvider, duration = 5 * 60 * 1000) => new Proxy(dataProvider, {
   get: (target, name) => (resource, params) => {
     if (name === 'getOne') {
       return dataProvider[name](resource, params).then(response => {

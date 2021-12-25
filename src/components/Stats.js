@@ -239,11 +239,12 @@ const BoardgameInput = ({ className, boardgame_data, boardgame_id }) => {
 
 const DatabaseInput = props => (
   <div {...props}>
-    {Object.keys(props.boardgame_data["columns"]).map(key => {
-      let type = props.boardgame_data["columns"][key]
+    {props.boardgame_data.columns.map(d => {
+      const { type, name } = d;
+
       switch (type) {
         case "int":
-          return <NumberInput key={key} source={key} {...props} />
+          return <NumberInput key={name} source={name} {...props} />
         default:
           return <span>not supported</span>
       }
