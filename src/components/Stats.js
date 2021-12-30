@@ -154,6 +154,8 @@ const DatabaseInput = props => (
       switch (type) {
         case "int":
           return <NumberInput key={name} source={name} {...props} />
+        case "bool":
+          return <BooleanInput key={name} source={name} {...props} />
         default:
           return <span>not supported</span>
       }
@@ -162,7 +164,5 @@ const DatabaseInput = props => (
 )
 
 const CooperativeInput = props => (
-  <div {...props}>
-    <BooleanInput source="won" {...props} />
-  </div>
+  <BooleanInput source="won" {...props} />
 )
