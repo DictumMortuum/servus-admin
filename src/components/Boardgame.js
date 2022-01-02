@@ -19,6 +19,8 @@ export const BoardgameShow = (props) => (
       <TextField source="id" />
       <TextField source="name" />
       <JsonField source="data" />
+      <TextField source="rank" />
+      <TextField source="cost" />
     </SimpleShowLayout>
   </Show>
 );
@@ -28,6 +30,8 @@ export const BoardgameList = props => (
     <Datagrid rowClick="edit">
       <TextField source="id" />
       <TextField source="name" />
+      <TextField source="rank" />
+      <TextField source="cost" />
       <JsonField source="data" reactJsonOptions={{collapsed: true}} />
       <ShowButton label="Show" />
     </Datagrid>
