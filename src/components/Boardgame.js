@@ -10,6 +10,7 @@ import {
   SimpleForm,
   NumberInput,
   TextInput,
+  ImageField,
 } from 'react-admin';
 import { JsonField } from "react-admin-json-view";
 
@@ -32,6 +33,7 @@ export const BoardgameList = props => (
       <TextField source="name" />
       <TextField source="rank" />
       <TextField source="cost" />
+      <ImageField source="thumb" />
       <JsonField source="data" reactJsonOptions={{collapsed: true}} />
       <ShowButton label="Show" />
     </Datagrid>
