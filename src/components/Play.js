@@ -27,7 +27,7 @@ export const PlayList = props => (
 export const PlayCreate = props => (
   <Create {...props}>
     <SimpleForm>
-      <ReferenceInput source="boardgame_id" reference="boardgame" perPage={500} sort={{field: "name", order: "DESC"}}>
+      <ReferenceInput source="boardgame_id" reference="boardgame" perPage={500} sort={{field: "name", order: "ASC"}} filter={{ "configured": "1" }}>
         <SelectInput optionText="name" optionValue="id" />
       </ReferenceInput>
       <DateInput source="date" />
