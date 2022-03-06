@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Fragment } from 'react';
 import {
   TextField,
   List,
@@ -13,21 +14,33 @@ import {
   Show,
   Edit,
   NumberInput,
+  BulkDeleteButton,
+  BooleanInput,
 } from 'react-admin';
 import BggMappingButton from "./mapping/BggMappingButton";
 import BggMappingRadio from "./mapping/BggMappingRadio";
 import AtlasMappingButton from "./mapping/AtlasMappingButton";
 import AtlasMappingStringButton from "./mapping/AtlasMappingStringButton";
 import StringInputMapping from "./mapping/StringInputMapping";
+import OutsideOfScopeButton from "./mapping/OutsideOfScopeButton";
+import BulkIgnoreButton from "./mapping/BulkIgnoreButton";
+import IgnoreButton from "./mapping/IgnoreButton";
 import UnmapButton from "./mapping/UnmapButton";
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { useSelector } from "react-redux";
+
+const PostBulkActionButtons = props => (
+  <Fragment>
+    <BulkIgnoreButton label="Ignore Items" {...props} />
+    <BulkDeleteButton {...props} />
+  </Fragment>
+);
 
 export const PriceList = props => {
   const { filterMappedPrices } = useSelector(state => state.bggReducer)
 
   return (
-    <List perPage={10} {...props} filter={{ mapped: filterMappedPrices }}>
+    <List perPage={10} {...props} filter={{ mapped: filterMappedPrices }} bulkActionButtons={<PostBulkActionButtons />}>
       <Datagrid rowClick="edit">
         <TextField source="id" />
         <ReferenceField source="store_id" reference="store">
@@ -54,6 +67,8 @@ const EditButtons = ({ basePath, ...props }) => (
     <StringInputMapping />
     <AtlasMappingStringButton {...props} />
     <UnmapButton {...props} />
+    <IgnoreButton {...props} />
+    <OutsideOfScopeButton {...props} />
   </ButtonGroup>
 )
 
@@ -62,6 +77,7 @@ export const PriceEdit = props => (
     <TabbedForm>
       <FormTab label="mapping">
         <TextField source="name" />
+        <BooleanInput source="mapped" />
         <NumberInput source="boardgame_id" />
         <EditButtons {...props} />
         <BggMappingRadio />
