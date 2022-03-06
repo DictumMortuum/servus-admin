@@ -11,8 +11,14 @@ import {
   NumberInput,
   TextInput,
   ImageField,
+  Edit,
+  TabbedForm,
+  FormTab,
 } from 'react-admin';
+import RefetchButton from "./mapping/RefetchButton";
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { JsonField } from "react-admin-json-view";
+import { useSelector } from "react-redux";
 
 export const BoardgameShow = (props) => (
   <Show {...props}>
@@ -26,19 +32,23 @@ export const BoardgameShow = (props) => (
   </Show>
 );
 
-export const BoardgameList = props => (
-  <List {...props}>
-    <Datagrid rowClick="edit">
-      <TextField source="id" />
-      <TextField source="name" />
-      <TextField source="rank" />
-      <TextField source="cost" />
-      <ImageField source="thumb" />
-      <JsonField source="data" reactJsonOptions={{collapsed: true}} />
-      <ShowButton label="Show" />
-    </Datagrid>
-  </List>
-);
+export const BoardgameList = props => {
+  const { filterBoardgamesWithNoRank } = useSelector(state => state.bggReducer)
+
+  return (
+    <List {...props} filter={{ ranked: filterBoardgamesWithNoRank }}>
+      <Datagrid rowClick="edit">
+        <TextField source="id" />
+        <TextField source="name" />
+        <TextField source="rank" />
+        <TextField source="cost" />
+        <ImageField source="thumb" />
+        <JsonField source="data" reactJsonOptions={{collapsed: true}} />
+        <ShowButton label="Show" />
+      </Datagrid>
+    </List>
+  );
+}
 
 export const BoardgameCreate = props => (
   <Create {...props}>
@@ -48,3 +58,21 @@ export const BoardgameCreate = props => (
     </SimpleForm>
   </Create>
 );
+
+export const BoardgameEdit = props => (
+  <Edit {...props}>
+    <TabbedForm>
+      <FormTab label="mapping">
+        <ImageField source="thumb" />
+        <TextField source="name" />
+        <EditButtons {...props} />
+      </FormTab>
+    </TabbedForm>
+  </Edit>
+)
+
+const EditButtons = ({ basePath, ...props }) => (
+  <ButtonGroup color="primary">
+    <RefetchButton {...props} />
+  </ButtonGroup>
+)
