@@ -6,7 +6,7 @@ const ResetViewsButton = (props) => (
     <BulkUpdateButton
         {...props}
         label="Reset Views"
-        data={{ mapped: true }}
+        data={{ boardgame_id: 23953 }}
         icon={<VisibilityOff/>}
     />
 );

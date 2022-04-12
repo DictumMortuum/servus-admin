@@ -9,7 +9,7 @@ const ignore = id => fetch(endpoint + "/rest/v1/price/" + id, {
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({
-    mapped: true
+    boardgame_id: 23953
   })
 }).then(rs => rs.json())
 

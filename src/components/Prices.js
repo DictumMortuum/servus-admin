@@ -43,6 +43,7 @@ export const PriceList = props => {
     <List perPage={10} {...props} filter={{ mapped: filterMappedPrices }} bulkActionButtons={<PostBulkActionButtons />}>
       <Datagrid rowClick="edit">
         <TextField source="id" />
+        <TextField source="store_name" />
         <ReferenceField source="store_id" reference="store">
           <TextField source="name" />
         </ReferenceField>
