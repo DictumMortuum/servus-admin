@@ -4,7 +4,6 @@ import {
   TextField,
   List,
   Datagrid,
-  BooleanField,
   UrlField,
   ReferenceField,
   TabbedShowLayout,
@@ -52,10 +51,8 @@ export const PriceList = props => {
         </ReferenceField>
         <TextField source="name" />
         <TextField source="price" />
-        <BooleanField source="stock" />
+        <TextField source="stock" />
         <UrlField source="url" />
-        <TextField source="rank" />
-        <TextField source="distance" />
       </Datagrid>
     </List>
   );
