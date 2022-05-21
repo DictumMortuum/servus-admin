@@ -15,8 +15,10 @@ import {
   NumberInput,
   BulkDeleteButton,
   BooleanInput,
+  EditButton
 } from 'react-admin';
 import BggMappingButton from "./mapping/BggMappingButton";
+import BggMappingListButton from "./mapping/BggMappingListButton";
 import BggMappingRadio from "./mapping/BggMappingRadio";
 import AtlasMappingButton from "./mapping/AtlasMappingButton";
 import AtlasMappingStringButton from "./mapping/AtlasMappingStringButton";
@@ -40,7 +42,7 @@ export const PriceList = props => {
 
   return (
     <List perPage={10} {...props} filter={{ mapped: filterMappedPrices }} bulkActionButtons={<PostBulkActionButtons />}>
-      <Datagrid rowClick="edit">
+      <Datagrid>
         <TextField source="id" />
         <TextField source="store_name" />
         <ReferenceField source="store_id" reference="store">
@@ -53,6 +55,8 @@ export const PriceList = props => {
         <TextField source="price" />
         <TextField source="stock" />
         <UrlField source="url" />
+        <BggMappingListButton />
+        <EditButton />
       </Datagrid>
     </List>
   );
