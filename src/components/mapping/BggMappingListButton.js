@@ -51,8 +51,7 @@ const Component = props => {
       payload: rs
     })
 
-    if (rs.length === 1) {
-      console.log(rs);
+    if (rs.length > 0) {
       const { boardgame_id } = rs[0];
       await update(id, boardgame_id);
       refresh();

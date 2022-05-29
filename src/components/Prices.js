@@ -44,7 +44,6 @@ export const PriceList = props => {
     <List perPage={10} {...props} filter={{ mapped: filterMappedPrices }} bulkActionButtons={<PostBulkActionButtons />}>
       <Datagrid>
         <TextField source="id" />
-        <TextField source="store_name" />
         <ReferenceField source="store_id" reference="store">
           <TextField source="name" />
         </ReferenceField>
@@ -52,6 +51,7 @@ export const PriceList = props => {
           <TextField source="name" />
         </ReferenceField>
         <TextField source="name" />
+        <TextField source="transformed_name" />
         <TextField source="price" />
         <TextField source="stock" />
         <UrlField source="url" />
