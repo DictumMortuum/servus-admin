@@ -15,9 +15,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import EventIcon from '@material-ui/icons/Event';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 
-export const endpoint = "https://servus.dictummortuum.com"
-// export const endpoint = "http://127.0.0.1:1234"
-const dataProvider = simpleRestProvider(endpoint + '/rest/v1');
+const dataProvider = simpleRestProvider(process.env.REACT_APP_URL + '/rest/v1');
 
 const cacheDataProviderProxy = (dataProvider, duration = 5 * 60 * 1000) => new Proxy(dataProvider, {
   get: (target, name) => (resource, params) => {
