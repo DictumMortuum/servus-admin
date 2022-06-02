@@ -15,7 +15,8 @@ import PersonIcon from '@material-ui/icons/Person';
 import EventIcon from '@material-ui/icons/Event';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 
-const dataProvider = simpleRestProvider(process.env.REACT_APP_URL + '/rest/v1');
+export const endpoint = process.env.REACT_APP_URL;
+const dataProvider = simpleRestProvider(`${endpoint}/rest/v1`);
 
 const cacheDataProviderProxy = (dataProvider, duration = 5 * 60 * 1000) => new Proxy(dataProvider, {
   get: (target, name) => (resource, params) => {
