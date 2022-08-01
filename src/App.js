@@ -16,7 +16,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import EventIcon from '@mui/icons-material/Event';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import Dashboard from "./components/Dashboard";
-import Games from "./components/Test";
+import GamesExpenses from "./components/graphs/GamesExpenses";
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 
@@ -48,7 +48,7 @@ const App = () => (
       <Resource name="price" list={PriceList} show={PriceShow} edit={PriceEdit} />
       <Resource name="mapping" list={MappingList} create={MappingCreate} />
       <CustomRoutes>
-        <Route path="/graph" element={<Games />} />
+        <Route path="/graph" element={<GamesExpenses />} />
       </CustomRoutes>
     </Admin>
   </Provider>

@@ -2,12 +2,23 @@ import React, { useState, useEffect } from "react";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { Title } from 'react-admin';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles((theme) => ({
+  margin: {
+    marginTop: theme.spacing(3),
+  },
+  height: {
+    height: theme.spacing(100),
+  },
+}));
 
 const Request = props => {
-  const { request, children, title } = props;
+  const { request, children, title, initialState } = props;
+  const classes = useStyles();
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [rs, setRs] = useState({});
+  const [rs, setRs] = useState(initialState || {});
 
   useEffect(() => {
     fetch(request)
@@ -25,9 +36,9 @@ const Request = props => {
   }, [request]);
 
   return (
-    <Card>
+    <Card className={classes.margin}>
       <Title title={title} />
-      <CardContent>
+      <CardContent className={classes.height}>
         {React.cloneElement(children, {
           data: rs,
           error,
