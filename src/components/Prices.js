@@ -21,14 +21,13 @@ import {
 import BggMappingButton from "./mapping/BggMappingButton";
 import BggMappingListButton from "./mapping/BggMappingListButton";
 import BggMappingRadio from "./mapping/BggMappingRadio";
-import AtlasMappingButton from "./mapping/AtlasMappingButton";
 import AtlasMappingStringButton from "./mapping/AtlasMappingStringButton";
 import StringInputMapping from "./mapping/StringInputMapping";
 import OutsideOfScopeButton from "./mapping/OutsideOfScopeButton";
 import BulkIgnoreButton from "./mapping/BulkIgnoreButton";
 import IgnoreButton from "./mapping/IgnoreButton";
 import UnmapButton from "./mapping/UnmapButton";
-import ButtonGroup from '@material-ui/core/ButtonGroup';
+import ButtonGroup from '@mui/material/ButtonGroup';
 import { useSelector } from "react-redux";
 
 const PostBulkActionButtons = props => (
@@ -67,7 +66,6 @@ export const PriceList = props => {
 const EditButtons = ({ basePath, ...props }) => (
   <ButtonGroup color="primary">
     <BggMappingButton {...props} />
-    <AtlasMappingButton {...props} />
     <StringInputMapping />
     <AtlasMappingStringButton {...props} />
     <UnmapButton {...props} />

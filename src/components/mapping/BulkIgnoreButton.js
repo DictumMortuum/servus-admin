@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { VisibilityOff } from '@material-ui/icons';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { BulkUpdateButton } from 'react-admin';
 
 const ResetViewsButton = (props) => (

@@ -1,24 +1,22 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import {
   TextField,
   List,
   ReferenceField,
   DateField,
   Datagrid,
-  ReferenceFieldController,
   ReferenceInput,
   SimpleForm,
   Create,
   SelectInput,
-  useQueryWithStore,
+  useGetOne,
   NumberInput,
   BooleanInput,
-  Toolbar,
-  SaveButton
 } from 'react-admin';
 import { JsonField } from "react-admin-json-view";
-import { useFormState } from 'react-final-form';
-import { makeStyles } from '@material-ui/core/styles';
+import { useWatch, useFormContext } from 'react-hook-form';
+import { makeStyles } from '@mui/styles';
+import Typography from "@mui/material/Typography";
 
 const useStyles = makeStyles({
   codeblock: {
@@ -34,13 +32,9 @@ export const StatsList = props => (
       <ReferenceField source="play_id" reference="play">
         <DateField source="date" />
       </ReferenceField>
-      <ReferenceFieldController label="title" source="play_id" reference="play" linkType={false}>
-        {({referenceRecord, ...props}) => (
-          <ReferenceField reference="boardgame" source="boardgame_id" record={referenceRecord || {}} linkType="show">
-            <TextField source="name" />
-          </ReferenceField>
-        )}
-      </ReferenceFieldController>
+      <ReferenceField source="boardgame_id" reference="boardgame">
+        <TextField source="name" />
+      </ReferenceField>
       <ReferenceField source="player_id" reference="player">
         <TextField source="name" />
       </ReferenceField>
@@ -53,32 +47,37 @@ export const StatsList = props => (
           displayDataTypes: false,
         }}
       />
+      <TextField source="data" />
     </Datagrid>
   </List>
 );
 
-const PostCreateToolbar = props => (
-  <Toolbar {...props}>
-    <SaveButton
-      label="save"
-      transform={data => {
-        const { data: _, play_id, player_id, ...rest } = data
-        return {
-          play_id,
-          player_id,
-          data: JSON.stringify(rest)
-        }
-      }}
-      submitOnEnter={false}
-    />
-  </Toolbar>
-);
+// const PostCreateToolbar = props => (
+//   <Toolbar {...props}>
+//     <SaveButton
+//       label="save"
+//       transform={data => {
+//         const { data: _, play_id, player_id, ...rest } = data
+//         return {
+//           play_id,
+//           player_id,
+//           data: JSON.stringify(rest)
+//         }
+//       }}
+//       // submitOnEnter={false}
+//     />
+//   </Toolbar>
+// );
 
 export const StatsCreate = props => (
   <Create {...props}>
-    <SimpleForm toolbar={<PostCreateToolbar />}>
+    <SimpleForm>
       <ReferenceInput source="play_id" reference="play" perPage={20}>
         <SelectInput optionText={choice => <SelectText {...choice} />} optionValue="id" />
+      </ReferenceInput>
+      {/* <NumberInput source="boardgame_id" /> */}
+      <ReferenceInput source="boardgame_id" reference="boardgame" perPage={30}>
+        <SelectInput optionText="name" optionValue="id" />
       </ReferenceInput>
       <ReferenceInput source="player_id" reference="player" perPage={30}>
         <SelectInput optionText="name" optionValue="id" />
@@ -104,21 +103,16 @@ const SelectText = props => (
 
 const OutputField = props => {
   const classes = useStyles();
-  const { values } = useFormState();
-  const { data: _, play_id, player_id, ...rest } = values
-  return <div className={classes.codeblock}>{JSON.stringify(rest)}</div>
+  const rest = useWatch();
+  return <Typography component="pre" className={classes.codeblock}>{JSON.stringify(rest)}</Typography>
 }
 
 const JsonInput = props => {
   const { className } = props;
-  const { values } = useFormState();
-  const { loaded, error, data } = useQueryWithStore({
-    type: 'getOne',
-    resource: 'play',
-    payload: { id: values.play_id || 1 }
-  })
+  const play_id = useWatch({ name: "play_id"});
+  const { data, isLoading, error } = useGetOne('play', { id: play_id || 1 })
 
-  if (!loaded) {
+  if (isLoading) {
     return <span>loading {data}...</span>
   }
 
@@ -131,6 +125,11 @@ const JsonInput = props => {
 
 const BoardgameInput = ({ className, boardgame_data, boardgame_id }) => {
   const props = { className, boardgame_data };
+  const { setValue } = useFormContext();
+
+  useEffect(() => {
+    setValue('boardgame_id', boardgame_id)
+  }, [boardgame_id, setValue])
 
   if (boardgame_data.hasOwnProperty("cooperative")) {
     return <CooperativeInput {...props} />

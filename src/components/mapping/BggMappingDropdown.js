@@ -1,11 +1,11 @@
 import React from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
-import MenuItem from '@material-ui/core/MenuItem';
-import { makeStyles } from '@material-ui/core/styles';
-import { useForm } from 'react-final-form';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import MenuItem from '@mui/material/MenuItem';
+import { makeStyles } from '@mui/styles';
+import { useForm } from 'react-hook-form';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {

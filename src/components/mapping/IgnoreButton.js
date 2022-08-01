@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { endpoint } from '../../App';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 
 const ignore = id => fetch(endpoint + "/rest/v1/price/" + id, {
   method: "PUT",

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Admin, Resource } from 'react-admin';
+import { Admin, Resource, CustomRoutes } from 'react-admin';
 import simpleRestProvider from 'ra-data-json-server';
 import { BoardgameShow, BoardgameList, BoardgameCreate, BoardgameEdit } from './components/Boardgame';
 import { StoreList } from './components/Store';
@@ -9,11 +9,16 @@ import { StatsList, StatsCreate } from './components/Stats';
 import { PriceList, PriceShow, PriceEdit } from './components/Prices';
 import { MappingList, MappingCreate } from "./components/Mapping";
 import { atlasReducer, bggReducer } from './components/reducers';
-import StoreIcon from '@material-ui/icons/Store';
-import ExtensionIcon from '@material-ui/icons/Extension';
-import PersonIcon from '@material-ui/icons/Person';
-import EventIcon from '@material-ui/icons/Event';
-import EventNoteIcon from '@material-ui/icons/EventNote';
+import { Route } from "react-router-dom";
+import StoreIcon from '@mui/icons-material/Store';
+import ExtensionIcon from '@mui/icons-material/Extension';
+import PersonIcon from '@mui/icons-material/Person';
+import EventIcon from '@mui/icons-material/Event';
+import EventNoteIcon from '@mui/icons-material/EventNote';
+import Dashboard from "./components/Dashboard";
+import Games from "./components/Test";
+import { createStore, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
 
 export const endpoint = process.env.REACT_APP_URL;
 const dataProvider = simpleRestProvider(`${endpoint}/rest/v1`);
@@ -33,15 +38,20 @@ const cacheDataProviderProxy = (dataProvider, duration = 5 * 60 * 1000) => new P
 });
 
 const App = () => (
-  <Admin customReducers={{ atlasReducer, bggReducer }} dataProvider={cacheDataProviderProxy(dataProvider)}>
-    <Resource name="store" list={StoreList} icon={StoreIcon} />
-    <Resource name="boardgame" list={BoardgameList} show={BoardgameShow} create={BoardgameCreate} edit={BoardgameEdit} icon={ExtensionIcon} />
-    <Resource name="player" list={PlayerList} create={PlayerCreate} icon={PersonIcon} />
-    <Resource name="play" list={PlayList} create={PlayCreate} icon={EventIcon} />
-    <Resource name="stats" list={StatsList} create={StatsCreate} icon={EventNoteIcon} />
-    <Resource name="price" list={PriceList} show={PriceShow} edit={PriceEdit} />
-    <Resource name="mapping" list={MappingList} create={MappingCreate} />
-  </Admin>
+  <Provider store={createStore(combineReducers({ atlasReducer, bggReducer}))}>
+    <Admin dashboard={Dashboard}dataProvider={cacheDataProviderProxy(dataProvider)}>
+      <Resource name="store" list={StoreList} icon={StoreIcon} />
+      <Resource name="boardgame" list={BoardgameList} show={BoardgameShow} create={BoardgameCreate} edit={BoardgameEdit} icon={ExtensionIcon} />
+      <Resource name="player" list={PlayerList} create={PlayerCreate} icon={PersonIcon} />
+      <Resource name="play" list={PlayList} create={PlayCreate} icon={EventIcon} />
+      <Resource name="stats" list={StatsList} create={StatsCreate} icon={EventNoteIcon} />
+      <Resource name="price" list={PriceList} show={PriceShow} edit={PriceEdit} />
+      <Resource name="mapping" list={MappingList} create={MappingCreate} />
+      <CustomRoutes>
+        <Route path="/graph" element={<Games />} />
+      </CustomRoutes>
+    </Admin>
+  </Provider>
 );
 
 export default App;

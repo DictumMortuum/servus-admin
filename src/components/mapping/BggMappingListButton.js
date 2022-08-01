@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { endpoint } from '../../App';
-import Button from '@material-ui/core/Button';
-import { useRefresh, useNotify } from 'react-admin';
+import Button from '@mui/material/Button';
+import { useRefresh, useNotify, useRecordContext } from 'react-admin';
 
 const search = id => fetch(endpoint + "/rest/v1/price/" + id + "/map/bgg", {
   headers: {
@@ -23,7 +23,7 @@ const update = (id, boardgame_id) => fetch(endpoint + "/rest/v1/price/" + id, {
 }).then(rs => rs.json())
 
 const Component = props => {
-  const { id } = props.record;
+  const { id } = useRecordContext();
   const [isSending, setIsSending] = useState(false)
   const isMounted = useRef(true)
   const dispatch = useDispatch();

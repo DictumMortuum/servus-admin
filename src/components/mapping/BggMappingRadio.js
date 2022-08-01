@@ -1,12 +1,12 @@
 import React from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import { makeStyles } from '@material-ui/core/styles';
-import { useForm } from 'react-final-form';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import { makeStyles } from '@mui/styles';
+import { useFormContext } from 'react-hook-form';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -15,26 +15,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const handleChange = (dispatch, form) => (event) => {
+const handleChange = (dispatch, setValue) => (event) => {
   const n = parseInt(event.target.value)
   dispatch({
     type: "BGG_SET_MAPPING",
     payload: n
   })
 
-  form.change("boardgame_id", n)
+  setValue("boardgame_id", n, { shouldDirty: true });
 }
 
 const Component = () => {
   const classes = useStyles();
   const { mappings, current_mapping } = useSelector(state => state.bggReducer)
   const dispatch = useDispatch();
-  const form = useForm();
+  const { setValue } = useFormContext();
 
   return (
     <FormControl variant="outlined" className={classes.formControl}>
       <FormLabel component="legend">Mappings</FormLabel>
-      <RadioGroup aria-label="Mappings" name="Mappings" value={current_mapping} onChange={handleChange(dispatch, form)}>
+      <RadioGroup aria-label="Mappings" name="Mappings" value={current_mapping} onChange={handleChange(dispatch, setValue)}>
         {mappings.map(d => <FormControlLabel key={d.boardgame_id} value={d.boardgame_id} control={<Radio />} label={d.boardgame_id + " - " + d.name} />)}
       </RadioGroup>
     </FormControl>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import InputBase from '@material-ui/core/InputBase';
+import InputBase from '@mui/material/InputBase';
 
 const Component = props => {
   const dispatch = useDispatch();

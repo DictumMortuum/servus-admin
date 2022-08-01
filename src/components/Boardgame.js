@@ -16,7 +16,7 @@ import {
   FormTab,
 } from 'react-admin';
 import RefetchButton from "./mapping/RefetchButton";
-import ButtonGroup from '@material-ui/core/ButtonGroup';
+import ButtonGroup from '@mui/material/ButtonGroup';
 import { JsonField } from "react-admin-json-view";
 import { useSelector } from "react-redux";
 
