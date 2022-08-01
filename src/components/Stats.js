@@ -13,7 +13,6 @@ import {
   NumberInput,
   BooleanInput,
 } from 'react-admin';
-import { JsonField } from "react-admin-json-view";
 import { useWatch, useFormContext } from 'react-hook-form';
 import { makeStyles } from '@mui/styles';
 import Typography from "@mui/material/Typography";
@@ -38,36 +37,10 @@ export const StatsList = props => (
       <ReferenceField source="player_id" reference="player">
         <TextField source="name" />
       </ReferenceField>
-      <JsonField
-        source="data"
-        reactJsonOptions={{
-          name: null,
-          collapsed: true,
-          enableClipboard: false,
-          displayDataTypes: false,
-        }}
-      />
       <TextField source="data" />
     </Datagrid>
   </List>
 );
-
-// const PostCreateToolbar = props => (
-//   <Toolbar {...props}>
-//     <SaveButton
-//       label="save"
-//       transform={data => {
-//         const { data: _, play_id, player_id, ...rest } = data
-//         return {
-//           play_id,
-//           player_id,
-//           data: JSON.stringify(rest)
-//         }
-//       }}
-//       // submitOnEnter={false}
-//     />
-//   </Toolbar>
-// );
 
 export const StatsCreate = props => (
   <Create {...props}>
@@ -75,7 +48,6 @@ export const StatsCreate = props => (
       <ReferenceInput source="play_id" reference="play" perPage={20}>
         <SelectInput optionText={choice => <SelectText {...choice} />} optionValue="id" />
       </ReferenceInput>
-      {/* <NumberInput source="boardgame_id" /> */}
       <ReferenceInput source="boardgame_id" reference="boardgame" perPage={30}>
         <SelectInput optionText="name" optionValue="id" />
       </ReferenceInput>

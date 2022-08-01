@@ -17,7 +17,6 @@ import {
 } from 'react-admin';
 import RefetchButton from "./mapping/RefetchButton";
 import ButtonGroup from '@mui/material/ButtonGroup';
-import { JsonField } from "react-admin-json-view";
 import { useSelector } from "react-redux";
 
 export const BoardgameShow = (props) => (
@@ -25,7 +24,7 @@ export const BoardgameShow = (props) => (
     <SimpleShowLayout>
       <TextField source="id" />
       <TextField source="name" />
-      <JsonField source="data" />
+      <TextField source="data" />
       <TextField source="rank" />
       <TextField source="cost" />
     </SimpleShowLayout>
@@ -43,7 +42,7 @@ export const BoardgameList = props => {
         <TextField source="rank" />
         <TextField source="cost" />
         <ImageField source="thumb" />
-        <JsonField source="data" reactJsonOptions={{collapsed: true}} />
+        <TextField source="data" />
         <ShowButton label="Show" />
       </Datagrid>
     </List>
