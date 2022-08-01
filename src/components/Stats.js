@@ -12,17 +12,9 @@ import {
   useGetOne,
   NumberInput,
   BooleanInput,
+  TextInput
 } from 'react-admin';
 import { useWatch, useFormContext } from 'react-hook-form';
-import { makeStyles } from '@mui/styles';
-import Typography from "@mui/material/Typography";
-
-const useStyles = makeStyles({
-  codeblock: {
-    fontFamily: "monospace",
-    fontSize: "1rem"
-  },
-});
 
 export const StatsList = props => (
   <List {...props} perPage={25} sort={{ field: 'id', order: 'DESC' }}>
@@ -42,8 +34,19 @@ export const StatsList = props => (
   </List>
 );
 
+const transform = props => {
+  const { boardgame_id, player_id, play_id, data } = props;
+
+  return {
+    boardgame_id,
+    player_id,
+    play_id,
+    data,
+  }
+}
+
 export const StatsCreate = props => (
-  <Create {...props}>
+  <Create {...props} transform={transform}>
     <SimpleForm>
       <ReferenceInput source="play_id" reference="play" perPage={20}>
         <SelectInput optionText={choice => <SelectText {...choice} />} optionValue="id" />
@@ -55,7 +58,6 @@ export const StatsCreate = props => (
         <SelectInput optionText="name" optionValue="id" />
       </ReferenceInput>
       <JsonInput {...props} />
-      <OutputField {...props} />
     </SimpleForm>
   </Create>
 );
@@ -74,9 +76,30 @@ const SelectText = props => (
 )
 
 const OutputField = props => {
-  const classes = useStyles();
+  const { boardgame_data: { columns }} = props;
+  const column_names = columns.map(d => d.name);
   const rest = useWatch();
-  return <Typography component="pre" className={classes.codeblock}>{JSON.stringify(rest)}</Typography>
+  const obj = {};
+  const { setValue } = useFormContext();
+
+  Object.keys(rest).map(d => {
+    if (column_names.includes(d)) {
+      obj[d] = rest[d];
+    }
+    return d;
+  });
+
+  const data = JSON.stringify(obj, null, 2);
+
+  useEffect(() => {
+    setValue('data', data);
+  }, [data, setValue]);
+
+  return (
+    <React.Fragment>
+      <TextInput source="data" multiline />
+    </React.Fragment>
+  )
 }
 
 const JsonInput = props => {
@@ -92,7 +115,12 @@ const JsonInput = props => {
     return <span>failed to load {data}...</span>
   }
 
-  return <BoardgameInput className={className} {...data} />
+  return (
+    <React.Fragment>
+      <BoardgameInput className={className} {...data} />
+      <OutputField {...data} />
+    </React.Fragment>
+  )
 };
 
 const BoardgameInput = ({ className, boardgame_data, boardgame_id }) => {
@@ -118,7 +146,7 @@ const BoardgameInput = ({ className, boardgame_data, boardgame_id }) => {
 }
 
 const DatabaseInput = props => (
-  <div {...props}>
+  <React.Fragment>
     {props.boardgame_data.columns.map(d => {
       const { type, name } = d;
 
@@ -131,7 +159,7 @@ const DatabaseInput = props => (
           return <span>not supported</span>
       }
     })}
-  </div>
+  </React.Fragment>
 )
 
 const CooperativeInput = props => (
