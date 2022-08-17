@@ -16,6 +16,8 @@ import {
   FormTab,
 } from 'react-admin';
 import RefetchButton from "./mapping/RefetchButton";
+import ConfigButton from "./mapping/ConfigButton";
+import UnconfigButton from "./mapping/UnconfigButton";
 import ButtonGroup from '@mui/material/ButtonGroup';
 import { useSelector } from "react-redux";
 
@@ -31,11 +33,15 @@ export const BoardgameShow = (props) => (
   </Show>
 );
 
+const postFilters = [
+  <TextInput label="Name" source="q" defaultValue="" />,
+];
+
 export const BoardgameList = props => {
   const { filterBoardgamesWithNoRank } = useSelector(state => state.bggReducer)
 
   return (
-    <List {...props} filter={{ ranked: filterBoardgamesWithNoRank }}>
+    <List {...props} filter={{ ranked: filterBoardgamesWithNoRank }} filters={postFilters}>
       <Datagrid rowClick="edit">
         <TextField source="id" />
         <TextField source="name" />
@@ -66,12 +72,24 @@ export const BoardgameEdit = props => (
         <TextField source="name" />
         <EditButtons {...props} />
       </FormTab>
+      <FormTab label="scoring setup">
+        <ImageField source="thumb" />
+        <TextField source="name" />
+        <ScoreSetupButtons {...props} />
+      </FormTab>
     </TabbedForm>
   </Edit>
-)
+);
+
+const ScoreSetupButtons = ({ basePath, ...props }) => (
+  <ButtonGroup color="primary">
+    <ConfigButton {...props} />
+    <UnconfigButton {...props} />
+  </ButtonGroup>
+);
 
 const EditButtons = ({ basePath, ...props }) => (
   <ButtonGroup color="primary">
     <RefetchButton {...props} />
   </ButtonGroup>
-)
+);
