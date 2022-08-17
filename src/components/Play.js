@@ -10,11 +10,18 @@ import {
   ReferenceInput,
   SelectInput,
   DateInput,
+  Show,
+  TabbedShowLayout,
+  Tab,
+  ReferenceManyField,
+  FunctionField,
 } from 'react-admin';
+
+import { JsonInput } from "./Stats";
 
 export const PlayList = props => (
   <List {...props} perPage={25} sort={{ field: 'date', order: 'DESC' }}>
-    <Datagrid rowClick="edit">
+    <Datagrid rowClick="show">
       <TextField source="id" />
       <ReferenceField source="boardgame_id" reference="boardgame">
         <TextField source="name" />
@@ -31,6 +38,44 @@ export const PlayCreate = props => (
         <SelectInput optionText="name" optionValue="id" />
       </ReferenceInput>
       <DateInput source="date" />
+    </SimpleForm>
+  </Create>
+);
+
+export const PlayShow = props => (
+  <Show {...props}>
+    <TabbedShowLayout>
+      <Tab label="summary">
+        <ReferenceManyField label="" reference="stats" target="play_id">
+          <Datagrid>
+            <TextField source="id" />
+            <ReferenceField source="play_id" reference="play">
+              <DateField source="date" />
+            </ReferenceField>
+            <ReferenceField source="boardgame_id" reference="boardgame">
+              <TextField source="name" />
+            </ReferenceField>
+            <ReferenceField source="player_id" reference="player">
+              <TextField source="name" />
+            </ReferenceField>
+            <FunctionField render={record => JSON.stringify(record.data, null, 2)} />
+          </Datagrid>
+        </ReferenceManyField>
+      </Tab>
+      <Tab label="add stats">
+        <CreateStatsForPlay {...props} />
+      </Tab>
+    </TabbedShowLayout>
+  </Show>
+)
+
+const CreateStatsForPlay = props => (
+  <Create {...props}>
+    <SimpleForm>
+      <ReferenceInput source="player_id" reference="player" perPage={30}>
+        <SelectInput optionText="name" optionValue="id" />
+      </ReferenceInput>
+      <JsonInput {...props} />
     </SimpleForm>
   </Create>
 );

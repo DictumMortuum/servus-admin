@@ -9,12 +9,14 @@ import {
   SimpleForm,
   Create,
   SelectInput,
-  useGetOne,
   NumberInput,
   BooleanInput,
-  TextInput
+  TextInput,
+  useDataProvider,
+  FunctionField
 } from 'react-admin';
 import { useWatch, useFormContext } from 'react-hook-form';
+import { useQuery } from 'react-query';
 
 export const StatsList = props => (
   <List {...props} perPage={25} sort={{ field: 'id', order: 'DESC' }}>
@@ -29,7 +31,7 @@ export const StatsList = props => (
       <ReferenceField source="player_id" reference="player">
         <TextField source="name" />
       </ReferenceField>
-      <TextField source="data" />
+      <FunctionField render={record => JSON.stringify(record.data, null, 2)} />
     </Datagrid>
   </List>
 );
@@ -102,10 +104,15 @@ const OutputField = props => {
   )
 }
 
-const JsonInput = props => {
+export const JsonInput = props => {
   const { className } = props;
   const play_id = useWatch({ name: "play_id"});
-  const { data, isLoading, error } = useGetOne('play', { id: play_id || 1 })
+  // const { data, isLoading, error } = useGetOne('play', { id: play_id || 1 }, { refetchOnMount: "always"})
+  const dataProvider = useDataProvider();
+  const { data, isLoading, error } = useQuery(
+    ['play', 'getOne', { id: play_id || 1 }],
+    () => dataProvider.getOne('play', { id: play_id || 1 })
+  );
 
   if (isLoading) {
     return <span>loading {data}...</span>
@@ -117,8 +124,8 @@ const JsonInput = props => {
 
   return (
     <React.Fragment>
-      <BoardgameInput className={className} {...data} />
-      <OutputField {...data} />
+      <BoardgameInput className={className} {...data.data} />
+      <OutputField {...data.data} />
     </React.Fragment>
   )
 };
