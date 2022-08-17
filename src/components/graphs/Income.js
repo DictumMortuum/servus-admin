@@ -10,6 +10,13 @@ const colors = ["#bf616a", "#d08770", "#b48ead", "#4c566a", "#81a1c1", "#a3be8c"
 const Chart = props => {
   const { data: { response: { data: raw_data }}, q} = props;
 
+  if(raw_data.length === 0) {
+    return raw_data;
+  }
+
+  const last_date = new Date(raw_data[raw_data.length-1].Date);
+  const difference = q - last_date.getMonth();
+
   const pre_data = raw_data.reduce((pre, cur) => {
     const { Date: raw_date, Name } = cur;
     const date = new Date(raw_date);
@@ -43,7 +50,17 @@ const Chart = props => {
       ...d,
       month: d.total/14,
     }
-  })
+  });
+
+  const last_value = data[data.length - 1];
+  const new_value = {}
+
+  Object.keys(last_value).map(d => {
+    new_value[d] = (q/(q - difference)) * last_value[d];
+    return d;
+  });
+
+  data[data.length-1] = new_value;
 
   return (
     <div style={{ width: '95%', height: '95%' }}>
