@@ -20,7 +20,11 @@ import { useQuery } from 'react-query';
 
 export const StatsList = props => (
   <List {...props} perPage={25} sort={{ field: 'id', order: 'DESC' }}>
-    <Datagrid rowClick="edit">
+    <Datagrid
+      rowClick="edit"
+      isRowExpandable={() => true}
+      expand={<FunctionField render={record => JSON.stringify(record.data, null, 2)} />}
+    >
       <TextField source="id" />
       <ReferenceField source="play_id" reference="play">
         <DateField source="date" />
@@ -31,7 +35,6 @@ export const StatsList = props => (
       <ReferenceField source="player_id" reference="player">
         <TextField source="name" />
       </ReferenceField>
-      <FunctionField render={record => JSON.stringify(record.data, null, 2)} />
     </Datagrid>
   </List>
 );
