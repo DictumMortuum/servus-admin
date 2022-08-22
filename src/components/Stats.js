@@ -80,8 +80,64 @@ const SelectText = props => (
   <span>{dateFormatter(new Date(props.date)) + " - " + props.boardgame}</span>
 )
 
+export const JsonInput = props => {
+  const { className } = props;
+  const play_id = useWatch({ name: "play_id"});
+  const dataProvider = useDataProvider();
+  const { data, isLoading, error } = useQuery(
+    ['play', 'getOne', { id: play_id || 418 }],
+    () => dataProvider.getOne('play', { id: play_id || 418 })
+  );
+
+  if (isLoading) {
+    return <span>loading {data}...</span>
+  }
+
+  if (error) {
+    return <span>failed to load {data}...</span>
+  }
+
+  return (
+    <BoardgameInput className={className} {...data.data} />
+  )
+};
+
+const BoardgameInput = ({ className, boardgame_data, boardgame_id }) => {
+  const props = { className, boardgame_data };
+  const { setValue } = useFormContext();
+
+  useEffect(() => {
+    setValue('boardgame_id', boardgame_id)
+  }, [boardgame_id, setValue])
+
+  if (boardgame_data.hasOwnProperty("cooperative")) {
+    return (
+      <React.Fragment>
+        <BooleanInput source="won" {...props} />
+        <OutputField {...props} columns={[{ name: "won" }]} />
+      </React.Fragment>
+    )
+  }
+
+  if (boardgame_data.hasOwnProperty("columns")) {
+    const { columns } = boardgame_data;
+
+    return (
+      <React.Fragment>
+        {columns.map(d => <DatabaseInput key={d.name} type={d.type} name={d.name} />)}
+        <OutputField {...props} columns={columns} />
+      </React.Fragment>
+    )
+  }
+
+  switch (boardgame_id) {
+    default:
+      return <NumberInput source="score" {...props} />
+  }
+}
+
 const OutputField = props => {
-  const { boardgame_data: { columns }} = props;
+  const { columns } = props;
   const column_names = columns.map(d => d.name);
   const rest = useWatch();
   const obj = {};
@@ -101,77 +157,19 @@ const OutputField = props => {
   }, [data, setValue]);
 
   return (
-    <React.Fragment>
-      <TextInput source="data" multiline />
-    </React.Fragment>
+    <TextInput source="data" multiline />
   )
 }
 
-export const JsonInput = props => {
-  const { className } = props;
-  const play_id = useWatch({ name: "play_id"});
-  // const { data, isLoading, error } = useGetOne('play', { id: play_id || 1 }, { refetchOnMount: "always"})
-  const dataProvider = useDataProvider();
-  const { data, isLoading, error } = useQuery(
-    ['play', 'getOne', { id: play_id || 1 }],
-    () => dataProvider.getOne('play', { id: play_id || 1 })
-  );
+const DatabaseInput = props => {
+  const { type, name } = props;
 
-  if (isLoading) {
-    return <span>loading {data}...</span>
-  }
-
-  if (error) {
-    return <span>failed to load {data}...</span>
-  }
-
-  return (
-    <React.Fragment>
-      <BoardgameInput className={className} {...data.data} />
-      <OutputField {...data.data} />
-    </React.Fragment>
-  )
-};
-
-const BoardgameInput = ({ className, boardgame_data, boardgame_id }) => {
-  const props = { className, boardgame_data };
-  const { setValue } = useFormContext();
-
-  useEffect(() => {
-    setValue('boardgame_id', boardgame_id)
-  }, [boardgame_id, setValue])
-
-  if (boardgame_data.hasOwnProperty("cooperative")) {
-    return <CooperativeInput {...props} />
-  }
-
-  if (boardgame_data.hasOwnProperty("columns")) {
-    return <DatabaseInput {...props} />
-  }
-
-  switch (boardgame_id) {
+  switch (type) {
+    case "int":
+      return <NumberInput source={name} {...props} />
+    case "bool":
+      return <BooleanInput source={name} {...props} />
     default:
-      return <NumberInput source="score" {...props} />
+      return <span>not supported</span>
   }
 }
-
-const DatabaseInput = props => (
-  <React.Fragment>
-    {props.boardgame_data.columns.map(d => {
-      const { type, name } = d;
-
-      switch (type) {
-        case "int":
-          return <NumberInput key={name} source={name} {...props} />
-        case "bool":
-          return <BooleanInput key={name} source={name} {...props} />
-        default:
-          return <span>not supported</span>
-      }
-    })}
-  </React.Fragment>
-)
-
-const CooperativeInput = props => (
-  <BooleanInput source="won" {...props} />
-)
