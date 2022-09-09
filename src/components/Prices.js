@@ -17,6 +17,7 @@ import {
   BooleanInput,
   EditButton,
   ImageField,
+  BooleanField
 } from 'react-admin';
 import BggMappingButton from "./mapping/BggMappingButton";
 import BggMappingListButton from "./mapping/BggMappingListButton";
@@ -26,6 +27,7 @@ import StringInputMapping from "./mapping/StringInputMapping";
 import OutsideOfScopeButton from "./mapping/OutsideOfScopeButton";
 import BulkIgnoreButton from "./mapping/BulkIgnoreButton";
 import IgnoreButton from "./mapping/IgnoreButton";
+import IgnoreListButton from "./mapping/IgnoreListButton";
 import UnmapButton from "./mapping/UnmapButton";
 import ButtonGroup from '@mui/material/ButtonGroup';
 import { useSelector } from "react-redux";
@@ -56,8 +58,10 @@ export const PriceList = props => {
         <TextField source="price" />
         <TextField source="stock" />
         <UrlField source="url" />
+        <BooleanField source="ignored" />
         <BggMappingListButton />
         <EditButton />
+        <IgnoreListButton />
       </Datagrid>
     </List>
   );
