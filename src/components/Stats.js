@@ -59,7 +59,7 @@ export const StatsCreate = props => (
       <ReferenceInput source="boardgame_id" reference="boardgame" perPage={30}>
         <SelectInput optionText="name" optionValue="id" />
       </ReferenceInput>
-      <ReferenceInput source="player_id" reference="player" perPage={30}>
+      <ReferenceInput source="player_id" reference="player" perPage={35}>
         <SelectInput optionText="name" optionValue="id" />
       </ReferenceInput>
       <JsonInput {...props} />
