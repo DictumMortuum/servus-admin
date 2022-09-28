@@ -33,9 +33,15 @@ const Chart = props => {
   )
 }
 
-const Dashboard = () => {
+const Dashboard = props => {
+  const { disable_title } = props;
+
   return (
-    <Request request={`${process.env.REACT_APP_URL}/gnucash/expenses/games`} title="Games expenses" initialState={{ response: { data: []}}}>
+    <Request
+      request={`${process.env.REACT_APP_URL}/gnucash/expenses/games`}
+      title={disable_title ? "" : "Games expenses"}
+      initialState={{ response: { data: []}}}
+    >
       <Chart />
     </Request>
   )

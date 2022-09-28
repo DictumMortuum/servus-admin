@@ -81,9 +81,15 @@ const Chart = props => {
   )
 }
 
-const Dashboard = () => {
+const Dashboard = props => {
+  const { disable_title } = props;
+
   return (
-    <Request request={`${process.env.REACT_APP_URL}/gnucash/expenses/${accounts.join(",")}`} title="Income" initialState={{ response: { data: []}} }>
+    <Request
+      request={`${process.env.REACT_APP_URL}/gnucash/expenses/${accounts.join(",")}`}
+      title={disable_title ? "" : "Income"}
+      initialState={{ response: { data: []}}}
+    >
       <Chart q={12} />
     </Request>
   )
