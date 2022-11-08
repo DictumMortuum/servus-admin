@@ -47,7 +47,8 @@ const BarcodeInput = (props) => {
       field.onChange(decodedText);
       setText(decodedText);
     });
-  }, [field]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
