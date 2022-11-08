@@ -17,8 +17,9 @@ export const BooksList = props => (
     <Datagrid rowClick="edit">
       <TextField source="id" />
       <TextField source="name" />
-      <TextField source="isbn" />
+      <TextField source="writer" />
       <TextField source="publisher" />
+      <TextField source="isbn" />
     </Datagrid>
   </List>
 );
@@ -27,34 +28,30 @@ export const BooksCreate = props => (
   <Create {...props}>
     <SimpleForm>
       <TextInput source="name" />
+      <TextInput source="writer" />
       <TextInput source="publisher" />
-      <BarcodeInput source="isbn" />
+      <BarcodeInput source="isbn" label="ISBN" />
     </SimpleForm>
   </Create>
 );
 
 const BarcodeInput = (props) => {
-  const { onChange, source, onBlur, ...rest } = props;
-  const { field, fieldState: { isTouched, invalid, error }, formState: { isSubmitted }, isRequired } = useInput({ source, onChange, onBlur, ...props });
+  const { source, ...rest } = props;
+  const [, setText] = useState("");
+  const { field } = useInput({ source, ...props });
   const scannerRef = useRef(null);
-  const [text, setText] = useState("");
 
   useEffect(() => {
     scannerRef.current = new Html5QrcodeScanner("qrcode", { fps: 30, qrbox: 250 });
-    scannerRef.current.render((decodedText, decodedResult) => { setText(decodedText) });
-  }, []);
+    scannerRef.current.render((decodedText, decodedResult) => {
+      field.onChange(decodedText);
+      setText(decodedText);
+    });
+  }, [field]);
 
   return (
     <>
-      <MuiTextField
-        {...field}
-        value={text}
-        label={props.label}
-        error={(isTouched || isSubmitted) && invalid}
-        helperText={(isTouched || isSubmitted) && invalid ? error : ''}
-        required={isRequired}
-        {...rest}
-      />
+      <MuiTextField {...field} label={props.label} {...rest} />
       <div id="qrcode">qr code container</div>
     </>
   );
@@ -64,8 +61,9 @@ export const BooksEdit = props => (
   <Edit {...props}>
     <SimpleForm>
       <TextInput source="name" />
+      <TextInput source="writer" />
       <TextInput source="publisher" />
-      <BarcodeInput source="isbn" />
+      <TextInput source="isbn" />
     </SimpleForm>
   </Edit>
 );
