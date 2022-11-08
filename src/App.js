@@ -11,6 +11,7 @@ import { MappingList, MappingCreate } from "./components/Mapping";
 import { atlasReducer, bggReducer } from './components/reducers';
 import { Route } from "react-router-dom";
 import StoreIcon from '@mui/icons-material/Store';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
 import ExtensionIcon from '@mui/icons-material/Extension';
 import PersonIcon from '@mui/icons-material/Person';
 import EventIcon from '@mui/icons-material/Event';
@@ -20,6 +21,7 @@ import GamesExpenses from "./components/graphs/GamesExpenses";
 import Income from "./components/graphs/Income";
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
+import { BooksCreate, BooksEdit, BooksList } from "./components/Books";
 
 export const endpoint = process.env.REACT_APP_URL;
 const dataProvider = simpleRestProvider(`${endpoint}/rest/v1`);
@@ -34,6 +36,7 @@ const App = () => (
       <Resource name="stats" list={StatsList} create={StatsCreate} icon={EventNoteIcon} />
       <Resource name="price" list={PriceList} show={PriceShow} edit={PriceEdit} />
       <Resource name="mapping" list={MappingList} create={MappingCreate} />
+      <Resource name="book" list={BooksList} create={BooksCreate} edit={BooksEdit} icon={MenuBookIcon} />
       <CustomRoutes>
         <Route path="/expense/games" element={<GamesExpenses />} />
         <Route path="/income" element={<Income />} />
